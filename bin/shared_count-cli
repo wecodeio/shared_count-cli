@@ -3,6 +3,7 @@
 require_relative "../lib/shared_count/cli"
 
 urls = ARGF.readlines
+urls.reject! { |url| url.empty? }
 urls.map! { |url| url.start_with?("http") ? url : "http://#{url}" }
 
 csv = SharedCount::Cli.run(urls)

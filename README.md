@@ -13,13 +13,20 @@ CLI to the shared_count_api gem
 * Redirect the CSV file to stdout
 
 ```ruby
-$ ruby bin/shared_count-cli ~/Desktop/file?.txt # => ~/Desktop/file1.txt ~/Desktop/file2.txt
+$ shared_count-cli ~/Desktop/file?.txt # => ~/Desktop/file1.txt ~/Desktop/file2.txt
 ```
 
 * Redirect the CSV file to a file
 
 ```ruby
-$ ruby bin/shared_count-cli ~/Desktop/file?.txt > ~/Desktop/output.csv
+$ shared_count-cli ~/Desktop/file?.txt > ~/Desktop/output.csv
+```
+
+* Launch it in debug mode
+
+```ruby
+$ DEBUG=true shared_count-cli ~/Desktop/file?.txt > ~/Desktop/output.csv
+$ tail -f shared_count-cli.log
 ```
 
 ## Contributing
