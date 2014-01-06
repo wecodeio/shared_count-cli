@@ -22,7 +22,7 @@ $ shared_count-cli ~/Desktop/file?.txt # => ~/Desktop/file1.txt ~/Desktop/file2.
 $ shared_count-cli ~/Desktop/file?.txt > ~/Desktop/output.csv
 ```
 
-* Launch it in debug mode
+* Run it in debug mode
 
 ```ruby
 $ DEBUG=true shared_count-cli ~/Desktop/file?.txt > ~/Desktop/output.csv
