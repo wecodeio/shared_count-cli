@@ -1,6 +1,44 @@
 #!/usr/bin/env ruby
 
+require "getoptlong"
+
+opts = GetoptLong.new(
+  ['--help', '-h', GetoptLong::NO_ARGUMENT],
+  ['--concurrency', '-c', GetoptLong::REQUIRED_ARGUMENT],
+  ['--iteration-size', GetoptLong::REQUIRED_ARGUMENT]
+)
+
+concurrency, iteration_size = nil
+opts.each do |opt, arg|
+  case opt
+  when '--help'
+    puts <<-EOF
+shared_count-cli [OPTION] ... file1 [file2]
+
+-h, --help:
+  show help
+
+--concurrency n, -c n:
+  use at most n threads, defaults to 50
+
+--iteration-size n:
+  process at most n URLs per iteration (group of x threads), defaults to 1000
+
+EOF
+    exit
+  when '--concurrency'
+    concurrency = arg.to_i
+  when '--iteration-size'
+    iteration_size = arg.to_i
+  end
+end
+
 require_relative "../lib/shared_count/cli"
+
+SharedCount::Cli.configure do |config|
+  config.concurrency = concurrency
+  config.iteration_size = iteration_size
+end
 
 urls = ARGF.readlines
 urls.reject! { |url| url.empty? }

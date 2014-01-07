@@ -18,18 +18,22 @@ module SharedCount
     MAX_CONCURRENCY = 50
 
     class << self
+      attr_writer :concurrency, :iteration_size
+
       def run(lines)
         configure_shared_count_client
+        logger.info "Using #{concurrency} threads"
+        logger.info "The iteration size is #{iteration_size} URLs"
 
-        iterations, mod =  lines.length.divmod(LINES_PER_ITERATION)
+        iterations, mod =  lines.length.divmod(iteration_size)
         iterations += 1 if mod > 0
         results = Queue.new
 
         iterations.times do |iteration|
           logger.error "Iteration ##{iteration + 1}"
           queue = Queue.new
-          from = LINES_PER_ITERATION * iteration
-          lines[from, LINES_PER_ITERATION].each { |url| queue.push(url) }
+          from = iteration_size * iteration
+          lines[from, iteration_size].each { |url| queue.push(url) }
           thread_count = [MAX_CONCURRENCY, lines.length].min
 
           threads = (0...thread_count).map do |thread|
@@ -106,6 +110,18 @@ module SharedCount
             end
           end
         end
+      end
+
+      def configure
+        yield self
+      end
+
+      def concurrency
+        @concurrency ||= MAX_CONCURRENCY
+      end
+
+      def iteration_size
+        @iteration_size ||= LINES_PER_ITERATION
       end
 
     private

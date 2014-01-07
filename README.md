@@ -29,6 +29,12 @@ $ DEBUG=true shared_count-cli ~/Desktop/file?.txt > ~/Desktop/output.csv
 $ tail -f shared_count-cli.log
 ```
 
+* For more fine control see the available command line options
+
+```ruby
+$ shared_count-cli --help
+```
+
 ## Contributing
 
 1. Fork it ( http://github.com/<my-github-username>/shared_count-cli/fork )
